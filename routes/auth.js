@@ -6,12 +6,19 @@ const { run, get, all } = require('../database/db');
 const { authenticateToken, JWT_SECRET } = require('../middleware/auth');
 
 router.post('/login', async (req, res) => {
-  const { username, password } = req.body;
-  if (!username||!password) return res.status(400).json({ error: 'Identifiant et mot de passe requis' });
-  const user = await get('SELECT * FROM users WHERE (username=? OR email=?) AND is_active=1', [username, username]);
-  if (!user||!bcrypt.compareSync(password, user.password_hash)) return res.status(401).json({ error: 'Identifiants incorrects' });
-  const token = jwt.sign({ id: user.id, username: user.username, role: user.role }, JWT_SECRET, { expiresIn: '24h' });
-  res.json({ success: true, token, user: { id: user.id, username: user.username, email: user.email, role: user.role } });
+  try {
+    const { username, password } = req.body;
+    if (!username || !password) return res.status(400).json({ error: 'Username and password required' });
+    const user = await get('SELECT * FROM users WHERE (username=? OR email=?) AND is_active=1', [username, username]);
+    if (!user || !bcrypt.compareSync(password, user.password_hash)) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+    const token = jwt.sign({ id: user.id, username: user.username, role: user.role }, JWT_SECRET, { expiresIn: '24h' });
+    res.json({ success: true, token, user: { id: user.id, username: user.username, email: user.email, role: user.role } });
+  } catch (e) {
+    console.error('Login error:', e);
+    res.status(500).json({ error: 'Server error: ' + e.message });
+  }
 });
 
 router.get('/verify', authenticateToken, (req, res) => res.json({ valid: true, user: req.user }));

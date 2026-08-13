@@ -1,11 +1,20 @@
 const { createClient } = require('@libsql/client');
 const bcrypt = require('bcryptjs');
 
-// ─── Client Turso (remote) ou SQLite local en fallback ───────────────────────
-const db = createClient({
-  url:       process.env.TURSO_DATABASE_URL  || 'file:./database/pharmacy.db',
-  authToken: process.env.TURSO_AUTH_TOKEN    || undefined,
-});
+// ─── Client : Turso en production, SQLite local en dev ───────────────────────
+// En local sans accès réseau à Turso, on force SQLite local
+const isVercel = process.env.VERCEL || process.env.VERCEL_ENV;
+
+const db = createClient(
+  isVercel
+    ? {
+        url:       process.env.TURSO_DATABASE_URL,
+        authToken: process.env.TURSO_AUTH_TOKEN,
+      }
+    : {
+        url: 'file:./database/pharmacy.db',
+      }
+);
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 async function run(sql, params = []) {
@@ -32,8 +41,11 @@ function rowToObject(columns, row) {
 
 // ─── Init / Migrations ───────────────────────────────────────────────────────
 async function init() {
-  await run('PRAGMA foreign_keys = ON');
-  await run('PRAGMA journal_mode = WAL');
+  // PRAGMAs only supported by local SQLite, not Turso remote
+  if (!isVercel) {
+    await run('PRAGMA foreign_keys = ON');
+    await run('PRAGMA journal_mode = WAL');
+  }
 
   // Migrations — ajouter colonnes si absentes
   try { await run("ALTER TABLE products ADD COLUMN tags TEXT DEFAULT '[]'"); } catch {}
@@ -198,6 +210,6 @@ async function init() {
   console.log('✅ Turso database initialised');
 }
 
-init().catch(console.error);
+const initPromise = init().catch(e => { console.error('DB init error:', e); });
 
-module.exports = { run, get, all };
+module.exports = { run, get, all, initPromise };

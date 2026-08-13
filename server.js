@@ -38,8 +38,18 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-app.listen(PORT, () => {
-  console.log(`\n🚀 MediShop démarré sur http://localhost:${PORT}`);
-  console.log(`📦 Panel Admin: http://localhost:${PORT}/admin`);
-  console.log(`🔑 Identifiants admin: admin / admin123\n`);
+// Wait for DB init before starting server
+const { initPromise } = require('./database/db');
+initPromise.then(() => {
+  app.listen(PORT, () => {
+    console.log(`\n🚀 13-Pills started on http://localhost:${PORT}`);
+    console.log(`📦 Admin Panel: http://localhost:${PORT}/admin`);
+    console.log(`🔑 Admin credentials: admin / admin123\n`);
+  });
+}).catch(e => {
+  console.error('Failed to initialize database:', e);
+  // Start anyway so health check works on Vercel
+  app.listen(PORT, () => {
+    console.log(`⚠️ Server started without DB on port ${PORT}`);
+  });
 });
