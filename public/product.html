@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product - 13-Pills</title>
+  <link id="favicon" rel="icon" href="/img/favicon.png">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    /* ── TOP SECTION : image gauche | infos achat droite (hauteur fixe) ── */
+    .product-top {
+      display: grid;
+      grid-template-columns: 460px 1fr;
+      gap: 48px;
+      padding: 40px 0 32px;
+      align-items: start;
+    }
+
+    /* Galerie image */
+    .product-gallery {
+      position: sticky;
+      top: 90px;
+    }
+    .main-img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: #fff;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .main-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 16px;
+    }
+    .main-img svg {
+      opacity: 0.25;
+    }
+
+    /* Infos achat */
+    .product-detail h1 { font-size: 24px; font-weight: 800; margin-bottom: 8px; line-height: 1.3; }
+    .product-detail .meta { display: flex; gap: 8px; align-items: center; margin-bottom: 14px; flex-wrap: wrap; }
+    .product-detail .meta span { font-size: 12px; background: var(--primary-light); color: var(--primary); padding: 3px 10px; border-radius: 20px; }
+    .big-price { font-size: 30px; font-weight: 800; color: var(--primary); }
+    .old-price { font-size: 17px; color: var(--text-light); text-decoration: line-through; margin-left: 10px; }
+    .qty-row { display: flex; align-items: center; gap: 12px; margin: 18px 0; }
+    .qty-input { display: flex; align-items: center; border: 1px solid var(--border); overflow: hidden; }
+    .qty-input button { width: 36px; height: 40px; background: var(--bg); border: none; font-size: 18px; cursor: pointer; transition: background 0.15s; }
+    .qty-input button:hover { background: var(--primary); color: #fff; }
+    .qty-input input { width: 52px; height: 40px; text-align: center; border: none; border-left: 1px solid var(--border); border-right: 1px solid var(--border); font-size: 15px; }
+    .add-btn { background: var(--primary); color: #fff; border: none; padding: 12px 28px; font-size: 15px; font-weight: 700; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+    .add-btn:hover { background: var(--primary-dark); }
+    .rx-notice { background: #fff5f5; border: 1px solid #feb2b2; color: #c53030; padding: 12px 16px; margin: 14px 0; font-size: 13px; }
+
+    /* ── Variant selector ── */
+    .variant-selector { margin-bottom: 16px; }
+    .variant-label { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+    .variant-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .variant-btn {
+      padding: 9px 16px;
+      border: 2px solid var(--border);
+      background: #fff;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      transition: 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      position: relative;
+      font-family: inherit;
+    }
+    .variant-btn:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+    .variant-btn.selected { border-color: var(--primary); background: var(--primary); color: #fff; }
+    .variant-btn.selected .variant-discount { background: rgba(255,255,255,0.25); color: #fff; }
+    .variant-discount {
+      font-size: 11px;
+      font-weight: 700;
+      background: #fff0f0;
+      color: #e53e3e;
+      padding: 1px 6px;
+      border-radius: 10px;
+    }
+
+    /* ── BOTTOM SECTION : description pleine largeur ── */
+    .product-bottom {
+      border-top: 2px solid var(--border);
+      padding: 40px 0 60px;
+    }
+
+    .product-bottom-tabs {
+      display: flex;
+      border-bottom: 2px solid var(--border);
+      gap: 0;
+      margin-bottom: 32px;
+    }
+    .tab-btn {
+      padding: 12px 28px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-light);
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      transition: color 0.2s;
+    }
+    .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* Description HTML riche */
+    .product-description { max-width: 820px; font-size: 15px; color: #2d3748; line-height: 1.85; }
+    .product-description h1 { font-size: 22px; font-weight: 800; color: #1a202c; margin: 0 0 20px; text-align: center; }
+    .product-description h2 { font-size: 17px; font-weight: 700; color: #1a202c; margin: 28px 0 10px; padding-bottom: 6px; border-bottom: 1px solid #e2e8f0; }
+    .product-description h3 { font-size: 15px; font-weight: 700; color: #2d3748; margin: 20px 0 8px; }
+    .product-description p { margin-bottom: 14px; }
+    .product-description ul, .product-description ol { padding-left: 22px; margin-bottom: 14px; }
+    .product-description li { margin-bottom: 6px; }
+    .product-description strong { font-weight: 700; }
+    .product-description em { font-style: italic; }
+
+    /* Spec table */
+    .spec-table { width: 100%; max-width: 600px; border-collapse: collapse; }
+    .spec-table tr:nth-child(even) { background: var(--bg); }
+    .spec-table td { padding: 10px 14px; font-size: 14px; border-bottom: 1px solid var(--border); }
+    .spec-table td:first-child { font-weight: 600; width: 40%; }
+
+    /* Tags */
+    .product-tags { margin-top: 28px; }
+    .product-tags .tags-label { font-size: 12px; font-weight: 700; color: #718096; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+    .product-tags .tags-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .product-tags a { display: inline-block; background: #f0f4f8; color: #4a5568; font-size: 12px; padding: 5px 14px; border: 1px solid #e2e8f0; text-decoration: none; transition: 0.2s; }
+    .product-tags a:hover { background: var(--primary-light); color: var(--primary); border-color: var(--primary); }
+
+    @media(max-width: 900px) {
+      .product-top { grid-template-columns: 1fr; gap: 24px; }
+      .product-gallery { position: static; }
+      .main-img { aspect-ratio: 4 / 3; }
+    }
+    @media(max-width: 600px) {
+      .product-top { padding: 20px 0 24px; }
+      .product-bottom { padding: 24px 0 40px; }
+      .tab-btn { padding: 10px 16px; font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+<header class="header">
+  <div class="header-main">
+    <div class="container">
+      <a href="/" class="logo"><div id="logo-container"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg></div><div class="logo-text"><span class="site-name" id="site-name">13-Pills</span></div></a>
+      <div class="search-bar"><input type="text" id="search-input" placeholder="Rechercher..."><button onclick="doSearch()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button></div>
+      <div class="header-actions"><button class="cart-btn" id="cart-btn-header" aria-label="Ouvrir le panier"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><span class="cart-count" id="cart-count">0</span></button></div>
+    </div>
+  </div>
+  <nav class="nav"><div class="container">
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="nav-links" id="nav-links">
+      <div class="drawer-header">Menu <button class="drawer-close" id="drawer-close">×</button></div>
+      <a href="/">Home</a><a href="/shop.html">Shop</a><a href="/shipping.html">Shipping</a>
+    </div>
+  </div></nav>
+</header>
+
+<div class="container">
+  <div id="breadcrumb" style="padding:16px 0;font-size:13px;color:var(--text-light)">
+    <a href="/">Home</a> › <a href="/shop.html">Shop</a> › <span id="bc-name">...</span>
+  </div>
+
+  <!-- TOP : image + infos achat -->
+  <div id="product-top" class="product-top">
+    <div class="loading" style="grid-column:1/-1"><div class="spinner"></div></div>
+  </div>
+
+  <!-- BOTTOM : onglets description / specs -->
+  <div id="product-bottom" class="product-bottom" style="display:none">
+    <div class="product-bottom-tabs">
+      <button class="tab-btn active" onclick="showTab('description',this)">Description</button>
+      <button class="tab-btn" onclick="showTab('specs',this)">Specifications</button>
+    </div>
+    <div class="tab-content active" id="tab-description">
+      <div class="product-description" id="desc-content"></div>
+    </div>
+    <div class="tab-content" id="tab-specs">
+      <table class="spec-table" id="spec-content"></table>
+      <div class="product-tags" id="tags-content" style="display:none">
+      <div class="tags-label">Tags</div>
+        <div class="tags-list" id="tags-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Produits similaires -->
+  <div style="margin-top:48px;padding-bottom:60px">
+    <h2 style="font-size:20px;font-weight:700;margin-bottom:20px">Similar Products</h2>
+    <div class="products-grid" id="related-products"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="/js/main.js"></script>
+<script>
+const productId = new URLSearchParams(location.search).get('id');
+if (!productId) location.href = '/shop.html';
+
+async function loadProduct() {
+  try {
+    const res = await fetch(`/api/products/${productId}`);
+    if (!res.ok) { location.href = '/shop.html'; return; }
+    const p = await res.json();
+
+    document.getElementById('bc-name').textContent = p.name;
+
+    // ── SEO meta tags ──
+    const metaTitle = p.meta_title || `${p.name} - 13-Pills`;
+    const metaDesc  = p.meta_description || p.short_description || '';
+    document.title = metaTitle;
+
+    let metaDescEl = document.querySelector('meta[name="description"]');
+    if (!metaDescEl) { metaDescEl = document.createElement('meta'); metaDescEl.name = 'description'; document.head.appendChild(metaDescEl); }
+    if (metaDesc) metaDescEl.content = metaDesc;
+
+    if (p.tags && p.tags.length) {
+      let metaKw = document.querySelector('meta[name="keywords"]');
+      if (!metaKw) { metaKw = document.createElement('meta'); metaKw.name = 'keywords'; document.head.appendChild(metaKw); }
+      metaKw.content = p.tags.join(', ');
+    }
+
+    let ogTitle = document.querySelector('meta[property="og:title"]');
+    if (!ogTitle) { ogTitle = document.createElement('meta'); ogTitle.setAttribute('property','og:title'); document.head.appendChild(ogTitle); }
+    ogTitle.content = metaTitle;
+
+    if (p.images && p.images[0]) {
+      let ogImg = document.querySelector('meta[property="og:image"]');
+      if (!ogImg) { ogImg = document.createElement('meta'); ogImg.setAttribute('property','og:image'); document.head.appendChild(ogImg); }
+      ogImg.content = p.images[0];
+    }
+
+    const hasDiscount = p.sale_price && p.sale_price < p.price;
+    const displayPrice = hasDiscount ? p.sale_price : p.price;
+    const discountPct = hasDiscount ? Math.round((1 - p.sale_price / p.price) * 100) : 0;
+    const hasVariants = p.variants && p.variants.length > 0;
+    const symbol = (siteSettings && siteSettings.currency_symbol) || '€';
+
+    // ── TOP : image + infos achat ──
+    const imgHtml = p.images && p.images.length
+      ? `<img src="${p.images[0]}" alt="${p.name}" onerror="this.parentElement.innerHTML='<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'80\\' height=\\'80\\' viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'%23ccc\\' stroke-width=\\'1\\' stroke-linecap=\\'round\\' stroke-linejoin=\\'round\\'><path d=\\'M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18\\'></path></svg>'">`
+      : `<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"></path></svg>`;
+
+    document.getElementById('product-top').innerHTML = `
+      <div class="product-gallery">
+        <div class="main-img">${imgHtml}</div>
+      </div>
+      <div class="product-detail">
+        <div class="meta">
+          ${p.category_name ? `<span>${p.category_name}</span>` : ''}
+          ${p.brand ? `<span>${p.brand}</span>` : ''}
+          ${p.requires_prescription ? '<span style="background:#fff5f5;color:#c53030">Prescription required</span>' : ''}
+          ${hasDiscount ? `<span style="background:#fff5f5;color:#c53030">-${discountPct}%</span>` : ''}
+        </div>
+        <h1>${p.name}</h1>
+        ${p.short_description ? `<p style="color:var(--text-light);font-size:14px;margin-bottom:14px;line-height:1.6">${p.short_description}</p>` : ''}
+        ${p.requires_prescription ? '<div class="rx-notice">This medication requires a valid prescription. Your prescription will be requested upon delivery.</div>' : ''}
+        <div style="margin:16px 0">
+          <span class="big-price" id="display-price">${formatPrice(displayPrice)}</span>
+          ${!hasVariants && hasDiscount ? `<span class="old-price">${formatPrice(p.price)}</span>` : ''}
+        </div>
+        <div style="font-size:14px;margin-bottom:16px" id="stock-status">
+          ${p.stock > 0
+            ? `<span style="color:var(--secondary);display:inline-flex;align-items:center;gap:6px"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> In stock (${p.stock} available)</span>`
+            : '<span style="color:#e53e3e;display:inline-flex;align-items:center;gap:6px"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Out of stock</span>'}
+        </div>
+
+        ${hasVariants ? `
+        <div class="variant-selector">
+          <div class="variant-label">Quantity</div>
+          <div class="variant-options" id="variant-options">
+            ${p.variants.map((v, i) => `
+              <button class="variant-btn${i === 0 ? ' selected' : ''}"
+                data-idx="${i}"
+                data-price="${v.price}"
+                data-original="${v.original_price || ''}"
+                data-stock="${v.stock ?? p.stock}"
+                onclick="selectVariant(this, ${JSON.stringify(v).replace(/"/g, '&quot;')})">
+                ${v.label}
+                ${v.original_price && v.original_price > v.price
+                  ? `<span class="variant-discount">-${Math.round((1 - v.price / v.original_price) * 100)}%</span>`
+                  : ''}
+              </button>
+            `).join('')}
+          </div>
+        </div>
+        ` : ''}
+
+        <div class="qty-row">
+          <div class="qty-input">
+            <button onclick="changeQty(-1)">−</button>
+            <input type="number" id="qty" value="1" min="1" max="${hasVariants ? (p.variants[0]?.stock ?? p.stock) : p.stock}">
+            <button onclick="changeQty(1)">+</button>
+          </div>
+          <button class="add-btn" id="add-btn" ${(hasVariants ? (p.variants[0]?.stock ?? p.stock) : p.stock) === 0 ? 'disabled' : ''} onclick="addProductToCart()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            Add to Cart
+          </button>
+        </div>
+        <div style="background:var(--bg);padding:12px 14px;font-size:12px;color:var(--text-light);display:flex;flex-wrap:wrap;gap:14px;margin-top:4px">
+          <span style="display:inline-flex;align-items:center;gap:5px">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12H3l9-9 9 9h-2"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>
+            Free shipping from ${siteSettings.free_shipping_threshold || 50}${siteSettings.currency_symbol || '€'}
+          </span>
+          <span style="display:inline-flex;align-items:center;gap:5px">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Secure payment
+          </span>
+          <span style="display:inline-flex;align-items:center;gap:5px">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            Discreet packaging
+          </span>
+        </div>
+      </div>
+    `;
+
+    // ── BOTTOM : onglets description / specs ──
+    document.getElementById('product-bottom').style.display = 'block';
+
+    // Description
+    document.getElementById('desc-content').innerHTML =
+      p.description || (p.short_description ? `<p>${p.short_description}</p>` : '<p style="color:var(--text-light)">No description available.</p>');
+
+    // Specs table
+    const specRows = [
+      p.brand        ? `<tr><td>Brand</td><td>${p.brand}</td></tr>` : '',
+      p.dosage       ? `<tr><td>Dosage</td><td>${p.dosage}</td></tr>` : '',
+      p.package_size ? `<tr><td>Packaging</td><td>${p.package_size}</td></tr>` : '',
+      p.sku          ? `<tr><td>Reference</td><td>${p.sku}</td></tr>` : '',
+      `<tr><td>Prescription</td><td>${p.requires_prescription ? 'Yes' : 'No'}</td></tr>`,
+      `<tr><td>Category</td><td>${p.category_name || '-'}</td></tr>`
+    ].join('');
+    document.getElementById('spec-content').innerHTML = specRows;
+
+    // Tags
+    if (p.tags && p.tags.length) {
+      const tagsEl = document.getElementById('tags-content');
+      tagsEl.style.display = 'block';
+      document.getElementById('tags-list').innerHTML = p.tags.map(tag =>
+        `<a href="/shop.html?search=${encodeURIComponent(tag)}">${tag}</a>`
+      ).join('');
+    }
+
+    // Store base name and stock for variant switching
+    window._productBaseName = p.name;
+    window._productStock = p.stock;
+
+    // Store product for cart — initialise avec la première variante si applicable
+    const initPrice = hasVariants ? p.variants[0].price : displayPrice;
+    const initLabel = hasVariants ? p.variants[0].label : '';
+    window.currentProduct = {
+      id: p.id,
+      name: p.name + (initLabel ? ` — ${initLabel}` : ''),
+      price: initPrice,
+      image: p.images && p.images[0] ? p.images[0] : '',
+      category: p.category_name
+    };
+
+    // Mettre à jour le prix affiché si variantes
+    if (hasVariants && p.variants[0]) {
+      const v0 = p.variants[0];
+      document.getElementById('display-price').textContent = `${parseFloat(v0.price).toFixed(2)} ${symbol}`;
+      updateStockStatus(v0.stock ?? p.stock);
+    }
+
+    // Related products
+    if (p.related && p.related.length) {
+      document.getElementById('related-products').innerHTML = p.related.map(r => createProductCard({...r, category_name: p.category_name})).join('');
+    }
+  } catch (e) { console.error(e); }
+}
+
+function changeQty(delta) {
+  const input = document.getElementById('qty');
+  if (!input) return;
+  input.value = Math.max(1, parseInt(input.value) + delta);
+}
+
+function addProductToCart() {
+  const qty = parseInt(document.getElementById('qty')?.value || 1);
+  for (let i = 0; i < qty; i++) addToCart(window.currentProduct);
+}
+
+function selectVariant(btn, variant) {
+  // Highlight selected button
+  document.querySelectorAll('.variant-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+
+  const symbol = (siteSettings && siteSettings.currency_symbol) || '€';
+  const price = parseFloat(variant.price);
+  const original = variant.original_price ? parseFloat(variant.original_price) : null;
+
+  // Update displayed price
+  const priceEl = document.getElementById('display-price');
+  if (priceEl) {
+    priceEl.textContent = `${price.toFixed(2)} ${symbol}`;
+    // Update or remove strikethrough
+    const oldStrikes = priceEl.parentElement.querySelectorAll('.old-price');
+    oldStrikes.forEach(el => el.remove());
+    if (original && original > price) {
+      const strike = document.createElement('span');
+      strike.className = 'old-price';
+      strike.textContent = `${original.toFixed(2)} ${symbol}`;
+      priceEl.after(strike);
+    }
+  }
+
+  // Update stock status
+  const stock = variant.stock ?? window._productStock ?? 0;
+  updateStockStatus(stock);
+  const qtyInput = document.getElementById('qty');
+  if (qtyInput) { qtyInput.max = stock; qtyInput.value = 1; }
+  const addBtn = document.getElementById('add-btn');
+  if (addBtn) addBtn.disabled = stock === 0;
+
+  // Update currentProduct
+  window.currentProduct = {
+    ...window.currentProduct,
+    name: window._productBaseName + (variant.label ? ` — ${variant.label}` : ''),
+    price
+  };
+}
+
+function updateStockStatus(stock) {
+  const el = document.getElementById('stock-status');
+  if (!el) return;
+  el.innerHTML = stock > 0
+    ? `<span style="color:var(--secondary);display:inline-flex;align-items:center;gap:6px"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> In stock (${stock} available)</span>`
+    : '<span style="color:#e53e3e;display:inline-flex;align-items:center;gap:6px"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Out of stock</span>';
+}
+
+function showTab(name, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(`tab-${name}`)?.classList.add('active');
+  btn.classList.add('active');
+}
+
+updateCartCount(); loadSettings(); loadProduct();
+</script>
+</body>
+</html>

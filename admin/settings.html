@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paramètres - Admin MediShop</title>
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <img class="sidebar-logo-img" style="display:none;height:36px;width:auto;object-fit:contain" alt="Logo">
+    <div class="logo-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>
+    </div>
+    <div>
+      <div class="logo-text sidebar-site-name">MediShop</div>
+      <div class="logo-sub">Administration</div>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section">Principal</div>
+    <a class="nav-item" data-href="/admin/" href="/admin/">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      Tableau de bord
+    </a>
+    <a class="nav-item" data-href="/admin/products.html" href="/admin/products.html">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>
+      Produits
+    </a>
+    <a class="nav-item" data-href="/admin/categories.html" href="/admin/categories.html">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+      Catégories
+    </a>
+    <a class="nav-item" data-href="/admin/orders.html" href="/admin/orders.html">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      Commandes
+    </a>
+    <div class="nav-section">Configuration</div>
+    <a class="nav-item" data-href="/admin/settings.html" href="/admin/settings.html">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Paramètres
+    </a>
+    <a class="nav-item" data-href="/admin/users.html" href="/admin/users.html">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Utilisateurs
+    </a>
+    <div class="nav-section">Accès rapide</div>
+    <a class="nav-item" href="/" target="_blank">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      Voir le site
+    </a>
+    <a class="nav-item" onclick="logout()" style="cursor:pointer">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Déconnexion
+    </a>
+  </nav>
+</aside>
+
+  <main class="admin-main">
+    <div class="admin-topbar">
+  <div class="topbar-left">
+    <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Menu">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <span class="topbar-title">Paramètres du site</span>
+  </div>
+  <div class="topbar-actions">
+    <span class="admin-badge">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span class="admin-user-name">Admin</span>
+    </span>
+  </div>
+</div>
+    <div class="admin-content">
+      <!-- TABS -->
+      <div class="settings-tabs">
+        <button class="settings-tab active" onclick="switchTab('branding',this)">Identité</button>
+        <button class="settings-tab" onclick="switchTab('contact',this)">Contact</button>
+        <button class="settings-tab" onclick="switchTab('shipping',this)">Livraison</button>
+        <button class="settings-tab" onclick="switchTab('payment',this)">Paiement</button>
+        <button class="settings-tab" onclick="switchTab('social',this)">Réseaux sociaux</button>
+        <button class="settings-tab" onclick="switchTab('seo',this)">SEO</button>
+      </div>
+
+      <!-- BRANDING TAB -->
+      <div class="settings-panel active" id="panel-branding">
+        <div class="setting-section">
+          <h3>Nom et slogan</h3>
+          <div class="form-row">
+            <div class="form-group"><label>Nom du site</label><input type="text" id="site_name" placeholder="MediShop"><span class="hint">Affiché dans le logo et l'onglet</span></div>
+            <div class="form-group"><label>Slogan</label><input type="text" id="site_tagline" placeholder="Votre pharmacie en ligne de confiance"></div>
+          </div>
+          <div class="form-row one">
+            <div class="form-group"><label>Description du site</label><textarea id="site_description" rows="2" placeholder="Description courte affichée dans le footer et les méta-tags"></textarea></div>
+          </div>
+        </div>
+
+        <div class="setting-section">
+          <h3>Logo du site</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+            <div>
+              <p style="font-size:13px;color:var(--text-light);margin-bottom:12px">Téléchargez votre logo (PNG, SVG recommandé, fond transparent)</p>
+              <div class="upload-zone" onclick="document.getElementById('logo-input').click()">
+                <div style="font-size:32px">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                </div>
+                <p style="margin:8px 0 4px;font-weight:600">Cliquez pour choisir</p>
+                <p style="font-size:12px;color:var(--text-light)">PNG, SVG, JPG · max 5MB</p>
+                <input type="file" id="logo-input" accept="image/*" style="display:none" onchange="uploadLogo(this)">
+              </div>
+            </div>
+            <div>
+              <p style="font-size:13px;color:var(--text-light);margin-bottom:12px">Aperçu actuel :</p>
+              <div style="border:1px solid var(--border);border-radius:8px;padding:20px;text-align:center;background:var(--bg)">
+                <img id="logo-preview" src="" alt="" style="max-height:80px;max-width:200px;object-fit:contain;display:none">
+                <div id="logo-placeholder" style="font-size:48px">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#cbd5e0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="setting-section">
+          <h3>Favicon</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+            <div>
+              <p style="font-size:13px;color:var(--text-light);margin-bottom:12px">Petite icône affichée dans l'onglet du navigateur (ICO, PNG 32×32 recommandé)</p>
+              <div class="upload-zone" onclick="document.getElementById('favicon-input').click()">
+                <div style="font-size:32px">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                </div>
+                <p style="margin:8px 0 4px;font-weight:600">Choisir le favicon</p>
+                <p style="font-size:12px;color:var(--text-light)">ICO, PNG · max 1MB</p>
+                <input type="file" id="favicon-input" accept="image/*,.ico" style="display:none" onchange="uploadFavicon(this)">
+              </div>
+            </div>
+            <div>
+              <p style="font-size:13px;color:var(--text-light);margin-bottom:12px">Aperçu actuel :</p>
+              <div style="border:1px solid var(--border);border-radius:8px;padding:20px;text-align:center;background:var(--bg)">
+                <img id="favicon-preview" src="" alt="" style="width:32px;height:32px;object-fit:contain;display:none">
+                <div id="favicon-placeholder" style="font-size:32px">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#cbd5e0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="setting-section">
+          <h3>Couleurs du thème</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+            <div class="form-group">
+              <label>Couleur principale</label>
+              <div style="display:flex;gap:10px;align-items:center">
+                <input type="color" id="primary_color" value="#0066CC" oninput="updateColorPreview('primary_color','primary-preview')">
+                <input type="text" id="primary_color_text" placeholder="#0066CC" style="flex:1" oninput="syncColor('primary_color_text','primary_color','primary-preview')">
+              </div>
+              <div class="color-preview-bar" id="primary-preview" style="background:#0066CC"></div>
+              <span class="hint">Utilisée pour les boutons, liens et éléments principaux</span>
+            </div>
+            <div class="form-group">
+              <label>Couleur secondaire</label>
+              <div style="display:flex;gap:10px;align-items:center">
+                <input type="color" id="secondary_color" value="#00A651" oninput="updateColorPreview('secondary_color','secondary-preview')">
+                <input type="text" id="secondary_color_text" placeholder="#00A651" style="flex:1" oninput="syncColor('secondary_color_text','secondary_color','secondary-preview')">
+              </div>
+              <div class="color-preview-bar" id="secondary-preview" style="background:#00A651"></div>
+              <span class="hint">Utilisée pour les badges "En stock" et panier</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTACT TAB -->
+      <div class="settings-panel" id="panel-contact">
+        <div class="setting-section">
+          <h3>Informations de contact</h3>
+          <div class="form-row">
+            <div class="form-group"><label>Email de contact</label><input type="email" id="contact_email" placeholder="contact@medishop.com"></div>
+            <div class="form-group"><label>Téléphone</label><input type="text" id="contact_phone" placeholder="+33 1 23 45 67 89"></div>
+          </div>
+          <div class="form-row one">
+            <div class="form-group"><label>Adresse</label><input type="text" id="contact_address" placeholder="123 Rue de la Santé, 75001 Paris"></div>
+          </div>
+          <div class="form-row one">
+            <div class="form-group"><label>Horaires d'ouverture</label><input type="text" id="working_hours" placeholder="Lun-Ven: 8h-20h, Sam: 9h-17h"></div>
+          </div>
+        </div>
+        <div class="setting-section">
+          <h3>Devise</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Devise</label>
+              <select id="currency">
+                <option value="EUR">Euro (EUR)</option>
+                <option value="USD">Dollar US (USD)</option>
+                <option value="GBP">Livre sterling (GBP)</option>
+                <option value="MAD">Dirham marocain (MAD)</option>
+                <option value="DZD">Dinar algérien (DZD)</option>
+                <option value="TND">Dinar tunisien (TND)</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Symbole de la devise</label><input type="text" id="currency_symbol" placeholder="€" maxlength="5"></div>
+          </div>
+        </div>
+        <div class="setting-section">
+          <h3>Footer</h3>
+          <div class="form-row one">
+            <div class="form-group"><label>Texte de bas de page</label><input type="text" id="footer_text" placeholder="© 2024 MediShop. Tous droits réservés."></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SHIPPING TAB -->
+      <div class="settings-panel" id="panel-shipping">
+        <div class="setting-section">
+          <h3>Configuration de la livraison</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Seuil livraison gratuite (montant)</label>
+              <input type="number" id="free_shipping_threshold" placeholder="50" min="0" step="0.01">
+              <span class="hint">Livraison gratuite au-dessus de ce montant (0 = toujours payante)</span>
+            </div>
+            <div class="form-group">
+              <label>Coût de livraison standard</label>
+              <input type="number" id="shipping_cost" placeholder="4.99" min="0" step="0.01">
+              <span class="hint">Frais de livraison appliqués en dessous du seuil</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAYMENT TAB -->
+      <div class="settings-panel" id="panel-payment">
+        <div class="setting-section">
+          <h3>Contre-remboursement (COD)</h3>
+          <div class="form-row">
+            <label style="display:flex;align-items:center;gap:10px;font-size:14px">
+              <label class="toggle"><input type="checkbox" id="payment_cod_enabled" checked><span class="toggle-slider"></span></label>
+              Activer le paiement à la livraison
+            </label>
+          </div>
+        </div>
+        <div class="setting-section">
+          <h3>Virement bancaire</h3>
+          <div class="form-row">
+            <label style="display:flex;align-items:center;gap:10px;font-size:14px">
+              <label class="toggle"><input type="checkbox" id="payment_bank_enabled" checked><span class="toggle-slider"></span></label>
+              Activer le virement bancaire
+            </label>
+          </div>
+          <div class="form-row one" style="margin-top:16px">
+            <div class="form-group">
+              <label>Coordonnées bancaires (affichées au client)</label>
+              <textarea id="bank_details" rows="5" placeholder="Banque: CIC&#10;IBAN: FR76 XXXX XXXX XXXX&#10;BIC: CMCIFRPP&#10;Bénéficiaire: MediShop"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOCIAL TAB -->
+      <div class="settings-panel" id="panel-social">
+        <div class="setting-section">
+          <h3>Liens réseaux sociaux</h3>
+          <div class="form-row">
+            <div class="form-group"><label>🔵 Facebook</label><input type="url" id="facebook_url" placeholder="https://facebook.com/votrepage"></div>
+            <div class="form-group"><label>📷 Instagram</label><input type="url" id="instagram_url" placeholder="https://instagram.com/votrecompte"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>𝕏 Twitter / X</label><input type="url" id="twitter_url" placeholder="https://twitter.com/votrecompte"></div>
+            <div class="form-group"><label>💬 WhatsApp</label><input type="text" id="whatsapp_number" placeholder="33612345678 (sans + ni espaces)"><span class="hint">Numéro international sans le +</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEO TAB -->
+      <div class="settings-panel" id="panel-seo">
+        <div class="setting-section">
+          <h3>Référencement (SEO)</h3>
+          <div class="form-row one">
+            <div class="form-group"><label>Titre meta (onglet navigateur)</label><input type="text" id="meta_title" placeholder="MediShop - Pharmacie en ligne"><span class="hint">Recommandé: 50-60 caractères</span></div>
+          </div>
+          <div class="form-row one">
+            <div class="form-group"><label>Description meta</label><textarea id="meta_description" rows="3" placeholder="Achetez vos médicaments en ligne..."></textarea><span class="hint">Recommandé: 120-160 caractères</span></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>ID Google Analytics</label><input type="text" id="google_analytics_id" placeholder="G-XXXXXXXXXX ou UA-XXXXXXXXX"></div>
+          </div>
+        </div>
+      </div>
+    </div><!-- end admin-content -->
+  </main>
+</div>
+
+<!-- SAVE BUTTON FIXED -->
+<button class="save-btn-fixed" onclick="saveSettings()">💾 Enregistrer les paramètres</button>
+
+<div class="toast" id="admin-toast"></div>
+<script src="/admin/admin-common.js"></script>
+<script>
+let currentSettings = {};
+
+(async () => {
+  if (!await requireAuth()) return;
+  loadSidebarBranding();
+  await loadSettings();
+})();
+
+async function loadSettings() {
+  const s = await fetch('/api/settings').then(r => r.json());
+  currentSettings = s;
+
+  // Fill all fields
+  const fields = ['site_name','site_tagline','site_description','contact_email','contact_phone','contact_address','working_hours','currency','currency_symbol','footer_text','free_shipping_threshold','shipping_cost','bank_details','facebook_url','instagram_url','twitter_url','whatsapp_number','meta_title','meta_description','google_analytics_id'];
+  for (const f of fields) {
+    const el = document.getElementById(f);
+    if (el) el.value = s[f] || '';
+  }
+
+  // Colors
+  if (s.primary_color) {
+    document.getElementById('primary_color').value = s.primary_color;
+    document.getElementById('primary_color_text').value = s.primary_color;
+    document.getElementById('primary-preview').style.background = s.primary_color;
+  }
+  if (s.secondary_color) {
+    document.getElementById('secondary_color').value = s.secondary_color;
+    document.getElementById('secondary_color_text').value = s.secondary_color;
+    document.getElementById('secondary-preview').style.background = s.secondary_color;
+  }
+
+  // Toggles
+  document.getElementById('payment_cod_enabled').checked = s.payment_cod_enabled !== '0';
+  document.getElementById('payment_bank_enabled').checked = s.payment_bank_enabled !== '0';
+
+  // Logo preview
+  if (s.logo_url) {
+    document.getElementById('logo-preview').src = s.logo_url;
+    document.getElementById('logo-preview').style.display = 'block';
+    document.getElementById('logo-placeholder').style.display = 'none';
+  }
+  if (s.favicon_url) {
+    document.getElementById('favicon-preview').src = s.favicon_url;
+    document.getElementById('favicon-preview').style.display = 'block';
+    document.getElementById('favicon-placeholder').style.display = 'none';
+  }
+}
+
+async function saveSettings() {
+  const btn = document.querySelector('.save-btn-fixed');
+  btn.textContent = '⏳ Enregistrement...';
+  btn.disabled = true;
+
+  const fields = ['site_name','site_tagline','site_description','contact_email','contact_phone','contact_address','working_hours','currency','currency_symbol','footer_text','free_shipping_threshold','shipping_cost','bank_details','facebook_url','instagram_url','twitter_url','whatsapp_number','meta_title','meta_description','google_analytics_id'];
+  const payload = {};
+  for (const f of fields) {
+    const el = document.getElementById(f);
+    if (el) payload[f] = el.value;
+  }
+  payload.primary_color = document.getElementById('primary_color').value;
+  payload.secondary_color = document.getElementById('secondary_color').value;
+  payload.payment_cod_enabled = document.getElementById('payment_cod_enabled').checked ? '1' : '0';
+  payload.payment_bank_enabled = document.getElementById('payment_bank_enabled').checked ? '1' : '0';
+
+  const res = await fetch('/api/settings', { method: 'PUT', headers: authHeaders(), body: JSON.stringify(payload) });
+  const data = await res.json();
+
+  btn.disabled = false;
+  if (data.success) {
+    btn.textContent = '✅ Enregistré !';
+    showToast('✅ Paramètres enregistrés avec succès', 'success');
+    loadSidebarBranding();
+    setTimeout(() => { btn.textContent = '💾 Enregistrer les paramètres'; }, 2500);
+  } else {
+    showToast('❌ Erreur: ' + data.error, 'error');
+    btn.textContent = '💾 Enregistrer les paramètres';
+  }
+}
+
+async function uploadLogo(input) {
+  if (!input.files[0]) return;
+  showToast('⏳ Upload logo...', '');
+  const result = await uploadFile(input.files[0], '/api/settings/upload/logo');
+  if (result.url) {
+    document.getElementById('logo-preview').src = result.url;
+    document.getElementById('logo-preview').style.display = 'block';
+    document.getElementById('logo-placeholder').style.display = 'none';
+    showToast('✅ Logo mis à jour', 'success');
+    loadSidebarBranding();
+  } else showToast('❌ Erreur upload', 'error');
+}
+
+async function uploadFavicon(input) {
+  if (!input.files[0]) return;
+  showToast('⏳ Upload favicon...', '');
+  const result = await uploadFile(input.files[0], '/api/settings/upload/favicon');
+  if (result.url) {
+    document.getElementById('favicon-preview').src = result.url;
+    document.getElementById('favicon-preview').style.display = 'block';
+    document.getElementById('favicon-placeholder').style.display = 'none';
+    showToast('✅ Favicon mis à jour', 'success');
+  } else showToast('❌ Erreur upload', 'error');
+}
+
+function updateColorPreview(inputId, previewId) {
+  const val = document.getElementById(inputId).value;
+  document.getElementById(previewId).style.background = val;
+  const textId = inputId + '_text';
+  if (document.getElementById(textId)) document.getElementById(textId).value = val;
+}
+
+function syncColor(textId, colorId, previewId) {
+  const val = document.getElementById(textId).value;
+  if (/^#[0-9a-f]{6}$/i.test(val)) {
+    document.getElementById(colorId).value = val;
+    document.getElementById(previewId).style.background = val;
+  }
+}
+
+function switchTab(name, btn) {
+  document.querySelectorAll('.settings-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.settings-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById(`panel-${name}`)?.classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

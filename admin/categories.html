@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catégories - Admin MediShop</title>
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <img class="sidebar-logo-img" style="display:none;height:36px;width:auto;object-fit:contain" alt="Logo">
+    <div class="logo-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>
+    </div>
+    <div>
+      <div class="logo-text sidebar-site-name">MediShop</div>
+      <div class="logo-sub">Administration</div>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section">Principal</div>
+    <a class="nav-item" data-href="/admin/" href="/admin/">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      Tableau de bord
+    </a>
+    <a class="nav-item" data-href="/admin/products.html" href="/admin/products.html">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>
+      Produits
+    </a>
+    <a class="nav-item" data-href="/admin/categories.html" href="/admin/categories.html">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+      Catégories
+    </a>
+    <a class="nav-item" data-href="/admin/orders.html" href="/admin/orders.html">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      Commandes
+    </a>
+    <div class="nav-section">Configuration</div>
+    <a class="nav-item" data-href="/admin/settings.html" href="/admin/settings.html">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Paramètres
+    </a>
+    <a class="nav-item" data-href="/admin/users.html" href="/admin/users.html">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Utilisateurs
+    </a>
+    <div class="nav-section">Accès rapide</div>
+    <a class="nav-item" href="/" target="_blank">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      Voir le site
+    </a>
+    <a class="nav-item" onclick="logout()" style="cursor:pointer">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Déconnexion
+    </a>
+  </nav>
+</aside>
+  <main class="admin-main">
+    <div class="admin-topbar">
+  <div class="topbar-left">
+    <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Menu">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <span class="topbar-title">Gestion des catégories</span>
+  </div>
+  <div class="topbar-actions">
+    <span class="admin-badge">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span class="admin-user-name">Admin</span>
+    </span>
+    <button class="btn btn-primary" onclick="openAddModal()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Ajouter
+    </button>
+  </div>
+</div>
+    <div class="admin-content">
+      <div class="card">
+        <div class="card-body" style="padding:0">
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Icône</th><th>Nom</th><th>Slug</th><th>Description</th><th>Produits</th><th>Actif</th><th>Actions</th></tr></thead>
+              <tbody id="cats-table"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="modal-overlay" id="cat-modal">
+  <div class="modal" style="max-width:500px">
+    <div class="modal-header">
+      <h2 id="modal-title">Ajouter une catégorie</h2>
+      <button class="modal-close" onclick="closeModal('cat-modal')">×</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="cat-id">
+      <div class="form-row">
+        <div class="form-group"><label>Nom *</label><input type="text" id="c-name" placeholder="ex: Analgésiques"></div>
+        <div class="form-group"><label>Icône (emoji)</label><input type="text" id="c-icon" placeholder="💊" maxlength="10"></div>
+      </div>
+      <div class="form-row one">
+        <div class="form-group"><label>Description</label><textarea id="c-desc" rows="2" placeholder="Description de la catégorie..."></textarea></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Ordre d'affichage</label><input type="number" id="c-order" min="0" value="0"></div>
+        <label style="display:flex;align-items:center;gap:10px;font-size:14px;margin-top:24px"><input type="checkbox" id="c-active" checked> Active</label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('cat-modal')">Annuler</button>
+      <button class="btn btn-primary" onclick="saveCategory()">💾 Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="admin-toast"></div>
+<script src="/admin/admin-common.js"></script>
+<script>
+(async () => { if (!await requireAuth()) return; loadSidebarBranding(); loadCategories(); })();
+
+async function loadCategories() {
+  const cats = await fetch('/api/categories/all', { headers: { Authorization: `Bearer ${getToken()}` } }).then(r => r.json());
+  document.getElementById('cats-table').innerHTML = cats.length ? cats.map(c => `
+    <tr>
+      <td style="font-size:28px">${c.image_url || '📂'}</td>
+      <td><strong>${c.name}</strong></td>
+      <td><code style="font-size:12px;background:var(--bg);padding:2px 6px;border-radius:4px">${c.slug}</code></td>
+      <td style="font-size:13px;color:#718096;max-width:200px">${c.description || '-'}</td>
+      <td>${c.product_count || 0}</td>
+      <td><label class="toggle"><input type="checkbox" ${c.is_active ? 'checked' : ''} onchange="toggleActive(${c.id},this.checked)"><span class="toggle-slider"></span></label></td>
+      <td>
+        <button class="btn btn-outline btn-sm" onclick="editCat(${c.id})">✏️</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteCat(${c.id},'${c.name.replace(/'/g,"\\'")}')">🗑️</button>
+      </td>
+    </tr>
+  `).join('') : '<tr><td colspan="7" style="text-align:center;padding:30px;color:#718096">Aucune catégorie</td></tr>';
+}
+
+async function toggleActive(id, val) {
+  await fetch(`/api/categories/${id}`, { method: 'PUT', headers: authHeaders(), body: JSON.stringify({ is_active: val ? 1 : 0 }) });
+}
+
+function openAddModal() {
+  document.getElementById('modal-title').textContent = '➕ Ajouter une catégorie';
+  document.getElementById('cat-id').value = '';
+  document.getElementById('c-name').value = '';
+  document.getElementById('c-icon').value = '';
+  document.getElementById('c-desc').value = '';
+  document.getElementById('c-order').value = 0;
+  document.getElementById('c-active').checked = true;
+  openModal('cat-modal');
+}
+
+let allCats = [];
+async function editCat(id) {
+  const cats = await fetch('/api/categories/all', { headers: { Authorization: `Bearer ${getToken()}` } }).then(r => r.json());
+  const c = cats.find(c => c.id === id);
+  if (!c) return;
+  document.getElementById('modal-title').textContent = '✏️ Modifier la catégorie';
+  document.getElementById('cat-id').value = c.id;
+  document.getElementById('c-name').value = c.name || '';
+  document.getElementById('c-icon').value = c.image_url || '';
+  document.getElementById('c-desc').value = c.description || '';
+  document.getElementById('c-order').value = c.sort_order || 0;
+  document.getElementById('c-active').checked = !!c.is_active;
+  openModal('cat-modal');
+}
+
+async function saveCategory() {
+  const name = document.getElementById('c-name').value.trim();
+  if (!name) { showToast('❌ Le nom est requis', 'error'); return; }
+  const id = document.getElementById('cat-id').value;
+  const payload = {
+    name, image_url: document.getElementById('c-icon').value.trim(),
+    description: document.getElementById('c-desc').value,
+    sort_order: parseInt(document.getElementById('c-order').value) || 0,
+    is_active: document.getElementById('c-active').checked ? 1 : 0
+  };
+  const url = id ? `/api/categories/${id}` : '/api/categories';
+  const method = id ? 'PUT' : 'POST';
+  const res = await fetch(url, { method, headers: authHeaders(), body: JSON.stringify(payload) });
+  const data = await res.json();
+  if (data.success !== false && !data.error) { closeModal('cat-modal'); showToast('✅ Catégorie enregistrée', 'success'); loadCategories(); }
+  else showToast(`❌ ${data.error}`, 'error');
+}
+
+async function deleteCat(id, name) {
+  if (!confirmDelete(`Supprimer "${name}" ?`)) return;
+  const res = await fetch(`/api/categories/${id}`, { method: 'DELETE', headers: authHeaders() });
+  const data = await res.json();
+  if (data.success) { showToast('✅ Supprimé', 'success'); loadCategories(); }
+  else showToast(`❌ ${data.error}`, 'error');
+}
+</script>
+</body>
+</html>

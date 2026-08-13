@@ -1,0 +1,11 @@
+node_modules/
+database/pharmacy.db
+database/pharmacy.db-shm
+database/pharmacy.db-wal
+.env
+.env.local
+public/uploads/*.jpg
+public/uploads/*.png
+public/uploads/*.jpeg
+public/uploads/*.webp
+!public/uploads/.gitkeep

@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Produits - Admin MediShop</title>
+  <link rel="stylesheet" href="/css/admin.css">
+  <!-- Quill.js WYSIWYG editor -->
+  <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+  <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+  <style>
+    .ql-container { font-family: 'Segoe UI', sans-serif; font-size: 14px; min-height: 180px; }
+    .ql-toolbar { border-color: var(--border) !important; background: #f8fafc; }
+    .ql-container { border-color: var(--border) !important; }
+    .ql-editor { min-height: 180px; line-height: 1.7; }
+    .ql-editor h1 { font-size: 22px; font-weight: 800; margin-bottom: 10px; }
+    .ql-editor h2 { font-size: 18px; font-weight: 700; margin-bottom: 8px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; }
+    .ql-editor h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .ql-editor ul, .ql-editor ol { padding-left: 20px; margin-bottom: 10px; }
+    .ql-editor p { margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <img class="sidebar-logo-img" style="display:none;height:36px;width:auto;object-fit:contain" alt="Logo">
+    <div class="logo-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>
+    </div>
+    <div>
+      <div class="logo-text sidebar-site-name">MediShop</div>
+      <div class="logo-sub">Administration</div>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section">Principal</div>
+    <a class="nav-item" data-href="/admin/" href="/admin/">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      Tableau de bord
+    </a>
+    <a class="nav-item" data-href="/admin/products.html" href="/admin/products.html">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>
+      Produits
+    </a>
+    <a class="nav-item" data-href="/admin/categories.html" href="/admin/categories.html">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+      Catégories
+    </a>
+    <a class="nav-item" data-href="/admin/orders.html" href="/admin/orders.html">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      Commandes
+    </a>
+    <div class="nav-section">Configuration</div>
+    <a class="nav-item" data-href="/admin/settings.html" href="/admin/settings.html">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Paramètres
+    </a>
+    <a class="nav-item" data-href="/admin/users.html" href="/admin/users.html">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Utilisateurs
+    </a>
+    <div class="nav-section">Accès rapide</div>
+    <a class="nav-item" href="/" target="_blank">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      Voir le site
+    </a>
+    <a class="nav-item" onclick="logout()" style="cursor:pointer">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Déconnexion
+    </a>
+  </nav>
+</aside>
+
+  <main class="admin-main">
+    <div class="admin-topbar">
+  <div class="topbar-left">
+    <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Menu">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <span class="topbar-title">Gestion des produits</span>
+  </div>
+  <div class="topbar-actions">
+    <span class="admin-badge">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span class="admin-user-name">Admin</span>
+    </span>
+    <button class="btn btn-primary" onclick="openAddModal()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Ajouter un produit
+    </button>
+  </div>
+</div>
+    <div class="admin-content">
+      <div class="card">
+        <div class="card-header">
+          <div class="search-bar-admin" style="margin:0;flex:1">
+            <input type="text" id="search" placeholder="Rechercher un produit..." oninput="loadProducts()">
+            <select id="cat-filter" onchange="loadProducts()"><option value="">Toutes catégories</option></select>
+            <select id="status-filter" onchange="loadProducts()">
+              <option value="">Tous statuts</option>
+              <option value="1">Actifs</option>
+              <option value="0">Inactifs</option>
+            </select>
+          </div>
+        </div>
+        <div class="card-body" style="padding:0">
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Produit</th><th>Catégorie</th><th>Prix</th><th>Stock</th><th>Statut</th><th>Vedette</th><th>Actions</th></tr></thead>
+              <tbody id="products-table"></tbody>
+            </table>
+          </div>
+          <div style="padding:16px;display:flex;gap:8px" id="pagination"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ADD/EDIT MODAL -->
+<div class="modal-overlay" id="product-modal">
+  <div class="modal" style="max-width:740px">
+    <div class="modal-header">
+      <h2 id="modal-title">Ajouter un produit</h2>
+      <button class="modal-close" onclick="closeModal('product-modal')">×</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="product-id">
+      <div class="form-row">
+        <div class="form-group"><label>Nom du produit *</label><input type="text" id="p-name" placeholder="ex: Doliprane 1000mg"></div>
+        <div class="form-group"><label>Marque</label><input type="text" id="p-brand" placeholder="ex: Sanofi"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Catégorie</label><select id="p-category"></select></div>
+        <div class="form-group"><label>SKU / Référence</label><input type="text" id="p-sku" placeholder="ex: DOL-1000-8"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Dosage</label><input type="text" id="p-dosage" placeholder="ex: 1000mg"></div>
+        <div class="form-group"><label>Conditionnement</label><input type="text" id="p-package" placeholder="ex: Boîte de 8 comprimés"></div>
+      </div>
+      <div class="form-row three">
+        <div class="form-group"><label>Prix (€) *</label><input type="number" id="p-price" step="0.01" min="0" placeholder="0.00"></div>
+        <div class="form-group"><label>Prix promo (€)</label><input type="number" id="p-sale-price" step="0.01" min="0" placeholder="Laisser vide si aucune promo"></div>
+        <div class="form-group"><label>Stock</label><input type="number" id="p-stock" min="0" placeholder="0"></div>
+      </div>
+
+      <!-- VARIANTS -->
+      <div class="form-row one" style="border:1px solid var(--border);padding:16px;background:#f8fafc;margin-bottom:0">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <div style="font-size:13px;font-weight:700;color:#4a5568;display:flex;align-items:center;gap:8px">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            Options de quantité / variantes
+          </div>
+          <button type="button" class="btn btn-outline btn-sm" onclick="addVariant()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Ajouter une option
+          </button>
+        </div>
+        <p style="font-size:12px;color:#a0aec0;margin-bottom:12px">Si renseigné, le client devra choisir une option avant d'ajouter au panier. Le prix unitaire est remplacé par le prix de la variante. Réduisez le prix/unité pour les grandes quantités.</p>
+        <div id="variants-list" style="display:flex;flex-direction:column;gap:8px"></div>
+        <input type="hidden" id="p-variants-json" value="[]">
+      </div>
+      <div class="form-row one">
+        <div class="form-group"><label>Description courte</label><input type="text" id="p-short-desc" placeholder="Description affichée dans la liste"></div>
+      </div>
+      <div class="form-row one">
+        <div class="form-group">
+          <label>Description complète <span style="font-weight:400;color:#718096;font-size:12px">— supporte titres, listes, gras, italique</span></label>
+          <div id="p-desc-editor"></div>
+          <input type="hidden" id="p-desc">
+        </div>
+      </div>
+      <div class="form-row one">
+        <div class="form-group">
+          <label>Tags SEO <span style="font-weight:400;color:#718096;font-size:12px">— mots-clés séparés par Entrée ou virgule</span></label>
+          <div id="tags-container" style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 10px;border:1px solid var(--border);min-height:42px;cursor:text;background:#fff" onclick="document.getElementById('tag-input').focus()">
+            <input type="text" id="tag-input" placeholder="Ajouter un tag..." style="border:none;outline:none;font-size:13px;flex:1;min-width:120px;padding:0;font-family:inherit;background:transparent">
+          </div>
+          <input type="hidden" id="p-tags-json" value="[]">
+          <p style="font-size:11px;color:#a0aec0;margin-top:4px">Ex: paracétamol, analgésique, fièvre, douleur, sans ordonnance</p>
+        </div>
+      </div>
+      <div class="form-row one" style="background:#f8fafc;padding:14px;margin-top:4px;border:1px solid var(--border)">
+        <div style="font-size:13px;font-weight:700;color:#4a5568;margin-bottom:10px;display:flex;align-items:center;gap:8px">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          SEO — Balises meta
+        </div>
+        <div class="form-row one" style="margin-bottom:10px">
+          <div class="form-group"><label>Meta titre <span style="font-weight:400;color:#718096;font-size:11px">(recommandé : 50-60 caractères)</span></label><input type="text" id="p-meta-title" placeholder="ex: Doliprane 1000mg - Analgésique et antipyrétique | 13-Pills" maxlength="80"></div>
+        </div>
+        <div class="form-row one">
+          <div class="form-group"><label>Meta description <span style="font-weight:400;color:#718096;font-size:11px">(recommandé : 150-160 caractères)</span></label><textarea id="p-meta-desc" rows="2" placeholder="ex: Achetez Doliprane 1000mg en ligne. Paracétamol analgésique et antipyrétique. Livraison discrète, sans ordonnance." maxlength="200"></textarea></div>
+        </div>
+      </div>
+      <div class="form-row one">
+        <div class="form-group">
+          <label>Image(s) du produit</label>
+          <input type="file" id="p-image-file" accept="image/*" onchange="uploadProductImage()">
+          <div id="p-image-preview" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"></div>
+          <input type="hidden" id="p-images-json" value="[]">
+        </div>
+      </div>
+      <div class="form-row three">
+        <label style="display:flex;align-items:center;gap:10px;font-size:14px"><input type="checkbox" id="p-active" checked> Actif</label>
+        <label style="display:flex;align-items:center;gap:10px;font-size:14px"><input type="checkbox" id="p-featured"> Vedette</label>
+        <label style="display:flex;align-items:center;gap:10px;font-size:14px"><input type="checkbox" id="p-rx"> Ordonnance requise</label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('product-modal')">Annuler</button>
+      <button class="btn btn-primary" onclick="saveProduct()">💾 Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="admin-toast"></div>
+<style>
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #e8f2ff;
+  color: #0066CC;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px 3px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.tag-chip button {
+  background: none;
+  border: none;
+  color: #0066CC;
+  cursor: pointer;
+  padding: 0;
+  font-size: 14px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  opacity: 0.7;
+}
+.tag-chip button:hover { opacity: 1; }
+</style>
+<script src="/admin/admin-common.js"></script>
+<script>
+let categories = [], currentPage = 1, editingId = null;
+let quill; // Quill editor instance
+
+(async () => {
+  if (!await requireAuth()) return;
+  loadSidebarBranding();
+
+  // Init Quill after DOM is ready
+  quill = new Quill('#p-desc-editor', {
+    theme: 'snow',
+    placeholder: 'Rédigez la description complète du produit...\n\nUtilisez Titre 1 pour le nom, Titre 2 pour les sous-sections (ex: Utilisations, Effets secondaires, Posologie...)',
+    modules: {
+      toolbar: [
+        [{ 'header': [1, 2, 3, false] }],
+        ['bold', 'italic', 'underline'],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        ['clean']
+      ]
+    }
+  });
+
+  await loadCategories();
+  loadProducts();
+})();
+
+async function loadCategories() {
+  categories = await fetch('/api/categories/all', { headers: { Authorization: `Bearer ${getToken()}` } }).then(r => r.json());
+  const sel = document.getElementById('p-category');
+  const filter = document.getElementById('cat-filter');
+  sel.innerHTML = '<option value="">-- Aucune catégorie --</option>' + categories.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+  filter.innerHTML = '<option value="">Toutes catégories</option>' + categories.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+}
+
+async function loadProducts(page = 1) {
+  currentPage = page;
+  const search = document.getElementById('search').value;
+  const cat = document.getElementById('cat-filter').value;
+  const active = document.getElementById('status-filter').value;
+
+  const q = new URLSearchParams({ page, limit: 15, admin: 1 });
+  if (search) q.set('search', search);
+  if (cat) q.set('category', cat);
+
+  const data = await fetch(`/api/products?${q}`, { headers: { Authorization: `Bearer ${getToken()}` } }).then(r => r.json());
+
+  let products = data.products;
+  if (active !== '') products = products.filter(p => String(p.is_active) === active);
+
+  const tbody = document.getElementById('products-table');
+  tbody.innerHTML = products.length ? products.map(p => `
+    <tr>
+      <td>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:40px;height:40px;background:var(--bg);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:20px;overflow:hidden;flex-shrink:0">
+            ${p.images && p.images[0] ? `<img src="${p.images[0]}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.textContent='💊'">` : '💊'}
+          </div>
+          <div>
+            <strong>${p.name}</strong>
+            ${p.requires_prescription ? '<span class="badge badge-yellow" style="font-size:11px">Rx</span>' : ''}
+            <div style="font-size:12px;color:#718096">${p.brand || ''} ${p.dosage || ''}</div>
+          </div>
+        </div>
+      </td>
+      <td>${p.category_name || '-'}</td>
+      <td>
+        <strong>${formatPrice(p.sale_price || p.price)}</strong>
+        ${p.sale_price ? `<br><small style="text-decoration:line-through;color:#718096">${formatPrice(p.price)}</small>` : ''}
+      </td>
+      <td><span style="color:${p.stock > 10 ? 'var(--secondary)' : p.stock > 0 ? '#d69e2e' : '#e53e3e'}">${p.stock > 0 ? p.stock : '❌ 0'}</span></td>
+      <td><label class="toggle"><input type="checkbox" ${p.is_active ? 'checked' : ''} onchange="toggleField(${p.id},'is_active',this.checked)"><span class="toggle-slider"></span></label></td>
+      <td><label class="toggle"><input type="checkbox" ${p.is_featured ? 'checked' : ''} onchange="toggleField(${p.id},'is_featured',this.checked)"><span class="toggle-slider"></span></label></td>
+      <td>
+        <button class="btn btn-outline btn-sm" onclick="editProduct(${p.id})">✏️</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteProduct(${p.id},'${p.name.replace(/'/g,"\\'")}')">🗑️</button>
+      </td>
+    </tr>
+  `).join('') : '<tr><td colspan="7" style="text-align:center;padding:30px;color:#718096">Aucun produit trouvé</td></tr>';
+
+  renderPagination('pagination', data.totalPages, page, 'loadProducts');
+}
+
+async function toggleField(id, field, value) {
+  await fetch(`/api/products/${id}`, { method: 'PUT', headers: authHeaders(), body: JSON.stringify({ [field]: value ? 1 : 0 }) });
+}
+
+function openAddModal() {
+  editingId = null;
+  document.getElementById('modal-title').textContent = '➕ Ajouter un produit';
+  document.getElementById('product-id').value = '';
+  ['p-name','p-brand','p-sku','p-dosage','p-package','p-price','p-sale-price','p-stock','p-short-desc','p-meta-title','p-meta-desc'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('p-category').value = '';
+  document.getElementById('p-active').checked = true;
+  document.getElementById('p-featured').checked = false;
+  document.getElementById('p-rx').checked = false;
+  document.getElementById('p-images-json').value = '[]';
+  document.getElementById('p-image-preview').innerHTML = '';
+  quill.setContents([]);
+  setTags([]);
+  setVariants([]);
+  openModal('product-modal');
+}
+
+async function editProduct(id) {
+  const p = await fetch(`/api/products/${id}`, { headers: { Authorization: `Bearer ${getToken()}` } }).then(r => r.json());
+  editingId = id;
+  document.getElementById('modal-title').textContent = '✏️ Modifier le produit';
+  document.getElementById('p-name').value = p.name || '';
+  document.getElementById('p-brand').value = p.brand || '';
+  document.getElementById('p-sku').value = p.sku || '';
+  document.getElementById('p-dosage').value = p.dosage || '';
+  document.getElementById('p-package').value = p.package_size || '';
+  document.getElementById('p-price').value = p.price || '';
+  document.getElementById('p-sale-price').value = p.sale_price || '';
+  document.getElementById('p-stock').value = p.stock || 0;
+  document.getElementById('p-short-desc').value = p.short_description || '';
+  document.getElementById('p-desc').value = p.description || '';
+  document.getElementById('p-category').value = p.category_id || '';
+  document.getElementById('p-active').checked = !!p.is_active;
+  document.getElementById('p-featured').checked = !!p.is_featured;
+  document.getElementById('p-rx').checked = !!p.requires_prescription;
+  document.getElementById('p-meta-title').value = p.meta_title || '';
+  document.getElementById('p-meta-desc').value = p.meta_description || '';
+
+  const images = p.images || [];
+  document.getElementById('p-images-json').value = JSON.stringify(images);
+  renderImagePreviews(images);
+
+  // Load description into Quill (supports both HTML and plain text)
+  const desc = p.description || '';
+  if (desc.startsWith('<')) {
+    quill.root.innerHTML = desc;
+  } else {
+    quill.setText(desc);
+  }
+
+  setTags(p.tags || []);
+  setVariants(p.variants || []);
+  openModal('product-modal');
+}
+
+function renderImagePreviews(images) {
+  document.getElementById('p-image-preview').innerHTML = images.map((img, i) =>
+    `<div style="position:relative;display:inline-block">
+      <img src="${img}" style="width:60px;height:60px;object-fit:cover;border-radius:6px;border:1px solid var(--border)">
+      <button onclick="removeImage(${i})" style="position:absolute;top:-6px;right:-6px;background:#e53e3e;color:#fff;border:none;border-radius:50%;width:18px;height:18px;font-size:12px;cursor:pointer;line-height:1">×</button>
+    </div>`
+  ).join('');
+}
+
+function removeImage(idx) {
+  const imgs = JSON.parse(document.getElementById('p-images-json').value || '[]');
+  imgs.splice(idx, 1);
+  document.getElementById('p-images-json').value = JSON.stringify(imgs);
+  renderImagePreviews(imgs);
+}
+
+async function uploadProductImage() {
+  const file = document.getElementById('p-image-file').files[0];
+  if (!file) return;
+  showToast('⏳ Upload en cours...', '');
+  const result = await uploadFile(file, '/api/settings/upload/product-image');
+  if (result.url) {
+    const imgs = JSON.parse(document.getElementById('p-images-json').value || '[]');
+    imgs.push(result.url);
+    document.getElementById('p-images-json').value = JSON.stringify(imgs);
+    renderImagePreviews(imgs);
+    showToast('✅ Image uploadée', 'success');
+  } else { showToast('❌ Erreur upload', 'error'); }
+}
+
+async function saveProduct() {
+  const name = document.getElementById('p-name').value.trim();
+  const price = document.getElementById('p-price').value;
+  if (!name || !price) { showToast('❌ Nom et prix requis', 'error'); return; }
+
+  const payload = {
+    name, brand: document.getElementById('p-brand').value,
+    sku: document.getElementById('p-sku').value,
+    dosage: document.getElementById('p-dosage').value,
+    package_size: document.getElementById('p-package').value,
+    price: parseFloat(price),
+    sale_price: document.getElementById('p-sale-price').value ? parseFloat(document.getElementById('p-sale-price').value) : null,
+    stock: parseInt(document.getElementById('p-stock').value) || 0,
+    category_id: document.getElementById('p-category').value || null,
+    short_description: document.getElementById('p-short-desc').value,
+    description: quill.root.innerHTML.trim() === '<p><br></p>' ? '' : quill.root.innerHTML,
+    is_active: document.getElementById('p-active').checked,
+    is_featured: document.getElementById('p-featured').checked,
+    requires_prescription: document.getElementById('p-rx').checked,
+    images: JSON.parse(document.getElementById('p-images-json').value || '[]'),
+    tags: JSON.parse(document.getElementById('p-tags-json').value || '[]'),
+    meta_title: document.getElementById('p-meta-title').value.trim(),
+    meta_description: document.getElementById('p-meta-desc').value.trim(),
+    variants: JSON.parse(document.getElementById('p-variants-json').value || '[]')
+  };
+
+  const url = editingId ? `/api/products/${editingId}` : '/api/products';
+  const method = editingId ? 'PUT' : 'POST';
+  const res = await fetch(url, { method, headers: authHeaders(), body: JSON.stringify(payload) });
+  const data = await res.json();
+  if (data.success !== false && !data.error) {
+    closeModal('product-modal');
+    showToast('✅ Produit enregistré', 'success');
+    loadProducts(currentPage);
+  } else { showToast(`❌ ${data.error}`, 'error'); }
+}
+
+async function deleteProduct(id, name) {
+  if (!confirmDelete(`Supprimer "${name}" ?`)) return;
+  const res = await fetch(`/api/products/${id}`, { method: 'DELETE', headers: authHeaders() });
+  const data = await res.json();
+  if (data.success) { showToast('✅ Produit supprimé', 'success'); loadProducts(currentPage); }
+  else showToast(`❌ ${data.error}`, 'error');
+}
+
+// ===== TAG MANAGEMENT =====
+function setTags(tagsArray) {
+  document.getElementById('p-tags-json').value = JSON.stringify(tagsArray);
+  renderTags(tagsArray);
+}
+
+function getTags() {
+  return JSON.parse(document.getElementById('p-tags-json').value || '[]');
+}
+
+function renderTags(tags) {
+  const container = document.getElementById('tags-container');
+  const input = document.getElementById('tag-input');
+  // Remove existing chips
+  container.querySelectorAll('.tag-chip').forEach(el => el.remove());
+  // Re-insert chips before the input
+  tags.forEach((tag, i) => {
+    const chip = document.createElement('span');
+    chip.className = 'tag-chip';
+    chip.innerHTML = `${tag}<button type="button" onclick="removeTag(${i})" title="Supprimer">×</button>`;
+    container.insertBefore(chip, input);
+  });
+}
+
+function addTag(value) {
+  const tag = value.trim().toLowerCase().replace(/\s+/g, ' ');
+  if (!tag) return;
+  const tags = getTags();
+  if (!tags.includes(tag)) {
+    tags.push(tag);
+    setTags(tags);
+  }
+  document.getElementById('tag-input').value = '';
+}
+
+function removeTag(idx) {
+  const tags = getTags();
+  tags.splice(idx, 1);
+  setTags(tags);
+}
+
+// ===== VARIANT MANAGEMENT =====
+function setVariants(arr) {
+  document.getElementById('p-variants-json').value = JSON.stringify(arr);
+  renderVariants(arr);
+}
+
+function getVariants() {
+  return JSON.parse(document.getElementById('p-variants-json').value || '[]');
+}
+
+function renderVariants(variants) {
+  const list = document.getElementById('variants-list');
+  if (!variants.length) {
+    list.innerHTML = '<p style="font-size:13px;color:#a0aec0;padding:8px 0">Aucune option — le produit utilisera le prix et stock standard ci-dessus.</p>';
+    return;
+  }
+  list.innerHTML = variants.map((v, i) => `
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:8px;align-items:center;background:#fff;padding:10px 12px;border:1px solid var(--border)">
+      <div>
+        <label style="font-size:11px;color:#718096;font-weight:600">Libellé</label>
+        <input type="text" value="${v.label || ''}"
+          onchange="updateVariant(${i},'label',this.value)"
+          placeholder="ex: 60 Pills, 90mg × 30"
+          style="width:100%;padding:6px 8px;border:1px solid var(--border);font-size:13px;outline:none;font-family:inherit">
+      </div>
+      <div>
+        <label style="font-size:11px;color:#718096;font-weight:600">Prix *</label>
+        <input type="number" value="${v.price || ''}" step="0.01" min="0"
+          onchange="updateVariant(${i},'price',parseFloat(this.value))"
+          placeholder="0.00"
+          style="width:100%;padding:6px 8px;border:1px solid var(--border);font-size:13px;outline:none;font-family:inherit">
+      </div>
+      <div>
+        <label style="font-size:11px;color:#718096;font-weight:600">Prix barré</label>
+        <input type="number" value="${v.original_price || ''}" step="0.01" min="0"
+          onchange="updateVariant(${i},'original_price',this.value?parseFloat(this.value):null)"
+          placeholder="optionnel"
+          style="width:100%;padding:6px 8px;border:1px solid var(--border);font-size:13px;outline:none;font-family:inherit">
+      </div>
+      <div>
+        <label style="font-size:11px;color:#718096;font-weight:600">Stock</label>
+        <input type="number" value="${v.stock ?? ''}" min="0"
+          onchange="updateVariant(${i},'stock',parseInt(this.value)||0)"
+          placeholder="0"
+          style="width:100%;padding:6px 8px;border:1px solid var(--border);font-size:13px;outline:none;font-family:inherit">
+      </div>
+      <button type="button" onclick="removeVariant(${i})"
+        style="background:none;border:none;color:#e53e3e;cursor:pointer;padding:4px;display:flex;align-items:center" title="Supprimer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+      </button>
+    </div>
+  `).join('');
+}
+
+function addVariant() {
+  const variants = getVariants();
+  variants.push({ label: '', price: '', original_price: null, stock: 0 });
+  setVariants(variants);
+}
+
+function updateVariant(idx, field, value) {
+  const variants = getVariants();
+  if (variants[idx]) variants[idx][field] = value;
+  document.getElementById('p-variants-json').value = JSON.stringify(variants);
+}
+
+function removeVariant(idx) {
+  const variants = getVariants();
+  variants.splice(idx, 1);
+  setVariants(variants);
+}
+document.addEventListener('DOMContentLoaded', function() {
+  const input = document.getElementById('tag-input');
+  if (!input) return;
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ',') {
+      e.preventDefault();
+      addTag(this.value);
+    } else if (e.key === 'Backspace' && this.value === '') {
+      const tags = getTags();
+      if (tags.length) { tags.pop(); setTags(tags); }
+    }
+  });
+  input.addEventListener('blur', function() {
+    if (this.value.trim()) addTag(this.value);
+  });
+});
+</script>
+</body>
+</html>

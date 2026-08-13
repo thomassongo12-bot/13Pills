@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop - 13-Pills</title>
+  <link id="favicon" rel="icon" href="/img/favicon.png">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header class="header">
+  <div class="header-top"><div class="container"><span id="header-phone">Contact</span><span>Secure Payment</span></div></div>
+  <div class="header-main">
+    <div class="container">
+      <a href="/" class="logo">
+        <div id="logo-container"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg></div>
+        <div class="logo-text"><span class="site-name" id="site-name">13-Pills</span><span class="site-tagline">Online Pharmacy</span></div>
+      </a>
+      <div class="search-bar">
+        <input type="text" id="search-input" placeholder="Search...">
+        <button onclick="applySearch()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
+      </div>
+      <div class="header-actions">
+        <button class="cart-btn" id="cart-btn-header" aria-label="Open cart"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><span class="cart-count" id="cart-count">0</span></button>
+      </div>
+    </div>
+  </div>
+  <nav class="nav">
+    <div class="container">
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-links" id="nav-links">
+        <div class="drawer-header">Menu <button class="drawer-close" id="drawer-close">×</button></div>
+        <a href="/">Home</a>
+        <a href="/shop.html" class="active">Shop</a>
+        <a href="/contact.html">Contact</a>
+        <a href="/about.html">About Us</a>
+        <a href="/shipping.html">Shipping</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<div class="container" style="padding:24px 20px">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+    <h1 id="shop-title" style="font-size:24px">All Products</h1>
+    <span id="results-count" style="color:var(--text-light);font-size:14px"></span>
+  </div>
+
+  <div class="shop-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="filter-group">
+        <h3>Categories</h3>
+        <div id="sidebar-cats"></div>
+      </div>
+      <div class="filter-group">
+        <h3>Price</h3>
+        <div class="price-range">
+          <input type="number" id="min-price" placeholder="Min" min="0" style="min-width:0">
+          <span>-</span>
+          <input type="number" id="max-price" placeholder="Max" min="0" style="min-width:0">
+        </div>
+        <button onclick="applyFilters()" style="margin-top:10px;width:100%;padding:8px;background:var(--primary);color:#fff;border:none;border-radius:var(--radius);cursor:pointer">Filter</button>
+      </div>
+      <div class="filter-group">
+        <h3>Options</h3>
+        <label class="filter-option"><input type="checkbox" id="filter-instock"> In stock only</label>
+        <label class="filter-option"><input type="checkbox" id="filter-sale"> On sale</label>
+        <label class="filter-option"><input type="checkbox" id="filter-noRx"> No prescription required</label>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <div>
+      <!-- Barre de contrôle -->
+      <div class="sort-bar">
+        <span class="results-info" id="results-count" style="font-size:13px;color:var(--text-light)"></span>
+        <div style="display:flex;align-items:center;gap:8px;margin-left:auto">
+          <select id="sort-select" onchange="applyFilters()" style="border:1px solid var(--border);padding:6px 10px;border-radius:var(--radius);font-size:13px;outline:none">
+            <option value="created_at-desc">Newest</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="name-asc">Name A-Z</option>
+          </select>
+          <!-- Bouton filtre catégorie (mobile) -->
+          <button class="mobile-filter-btn" id="filter-btn" onclick="toggleFilterDrawer()" title="Filter by category">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+          </button>
+          <!-- Toggle vue grid/liste (mobile) -->
+          <div class="view-toggle" id="view-toggle">
+            <button class="view-btn active" id="btn-grid" onclick="setView('grid')" title="Grid view">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            </button>
+            <button class="view-btn" id="btn-list" onclick="setView('list')" title="List view">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Drawer filtre catégorie (mobile) -->
+      <div class="filter-drawer-overlay" id="filter-overlay" onclick="toggleFilterDrawer()"></div>
+      <div class="filter-drawer" id="filter-drawer">
+        <div class="filter-drawer-header">
+          <span>Filter by category</span>
+          <button onclick="toggleFilterDrawer()" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--text-light)">×</button>
+        </div>
+        <div class="filter-drawer-body" id="mobile-cats"></div>
+        <div style="padding:16px">
+          <button onclick="toggleFilterDrawer()" style="width:100%;background:var(--primary);color:#fff;border:none;padding:12px;border-radius:8px;font-weight:600;cursor:pointer">Apply</button>
+        </div>
+      </div>
+
+      <div class="products-grid" id="products-grid">
+        <div class="loading"><div class="spinner"></div></div>
+      </div>
+      <div class="pagination" id="pagination"></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="/js/main.js"></script>
+<script>
+let currentPage = 1, currentView = 'grid';
+const params = new URLSearchParams(location.search);
+
+// ===== VUE GRID / LISTE =====
+function setView(v) {
+  currentView = v;
+  const grid = document.getElementById('products-grid');
+  document.getElementById('btn-grid').classList.toggle('active', v === 'grid');
+  document.getElementById('btn-list').classList.toggle('active', v === 'list');
+  if (v === 'list') grid.classList.add('list-view');
+  else grid.classList.remove('list-view');
+  localStorage.setItem('shop-view', v);
+}
+
+// ===== DRAWER FILTRE CATÉGORIE =====
+function toggleFilterDrawer() {
+  document.getElementById('filter-drawer').classList.toggle('open');
+  document.getElementById('filter-overlay').classList.toggle('open');
+}
+
+async function loadProducts(page = 1) {
+  currentPage = page;
+  const grid = document.getElementById('products-grid');
+  grid.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+  if (currentView === 'list') grid.classList.add('list-view');
+
+  const sortVal = document.getElementById('sort-select').value.split('-');
+  const query = new URLSearchParams({ page, limit: 12, sort: sortVal[0], order: sortVal[1] });
+
+  if (params.get('category')) query.set('category', params.get('category'));
+  if (params.get('search')) query.set('search', params.get('search'));
+  if (params.get('featured')) query.set('featured', '1');
+
+  const search = document.getElementById('search-input').value.trim();
+  if (search) query.set('search', search);
+
+  try {
+    const res = await fetch(`/api/products?${query}`);
+    const data = await res.json();
+    let products = data.products;
+
+    if (document.getElementById('filter-instock').checked) products = products.filter(p => p.stock > 0);
+    if (document.getElementById('filter-sale').checked) products = products.filter(p => p.sale_price);
+    if (document.getElementById('filter-noRx').checked) products = products.filter(p => !p.requires_prescription);
+    const minP = parseFloat(document.getElementById('min-price').value);
+    const maxP = parseFloat(document.getElementById('max-price').value);
+    if (!isNaN(minP)) products = products.filter(p => (p.sale_price || p.price) >= minP);
+    if (!isNaN(maxP)) products = products.filter(p => (p.sale_price || p.price) <= maxP);
+
+    const showing = Math.min(products.length, data.limit);
+    const start = (page - 1) * data.limit + 1;
+    const end = Math.min(page * data.limit, data.total);
+    document.getElementById('results-count').textContent =
+      data.total > 0 ? `Showing ${start}–${end} of ${data.total} product(s)` : 'No products found';
+
+    grid.innerHTML = products.length
+      ? products.map(p => createProductCardWithDetails(p)).join('')
+      : '<div class="empty-state"><div class="empty-icon"><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><h3>No products found</h3></div>';
+
+    // Pagination
+    const pag = document.getElementById('pagination');
+    pag.innerHTML = '';
+    for (let i = 1; i <= data.totalPages; i++) {
+      const btn = document.createElement('button');
+      btn.className = 'page-btn' + (i === page ? ' active' : '');
+      btn.textContent = i;
+      btn.onclick = () => loadProducts(i);
+      pag.appendChild(btn);
+    }
+  } catch (e) { grid.innerHTML = '<p style="color:red;padding:20px">Loading error</p>'; }
+}
+
+// Carte avec détails pour la vue liste
+function createProductCardWithDetails(p) {
+  const hasDiscount = p.sale_price && p.sale_price < p.price;
+  const displayPrice = hasDiscount ? p.sale_price : p.price;
+  const discountPct = hasDiscount ? Math.round((1 - p.sale_price / p.price) * 100) : 0;
+  const inStock = p.stock > 0;
+  const img = p.images && p.images[0] ? p.images[0] : '';
+  const nameSafe = p.name.replace(/'/g, "\\'").replace(/"/g, '\\"');
+  const catSafe = (p.category_name || '').replace(/'/g, "\\'");
+
+  return `
+  <div class="product-card" onclick="location.href='/product.html?id=${p.id}'">
+    <div class="product-img">
+      ${productImage(p)}
+      ${p.requires_prescription ? '<span class="badge-rx">Ordonnance</span>' : ''}
+      ${hasDiscount ? `<span class="badge-sale">-${discountPct}%</span>` : ''}
+      <div class="product-actions" onclick="event.stopPropagation()">
+        <button class="product-action-btn" title="Panier"
+          onclick='addToCart({id:${p.id},name:"${nameSafe}",price:${displayPrice},image:"${img}",category:"${catSafe}"})'
+          ${!inStock ? 'disabled' : ''}>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        </button>
+        <button class="product-action-btn" title="Voir" onclick="location.href='/product.html?id=${p.id}'">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+        <button class="product-action-btn" title="Wishlist" onclick="addToWishlist(${p.id},'${p.name.replace(/'/g,"\\'")}')">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="product-info">
+      <div class="product-name">${p.name}</div>
+      <div class="product-list-details">
+        ${p.category_name ? `<span>${p.category_name}</span> · ` : ''}
+        ${p.brand ? `<span>${p.brand}</span>` : ''}
+        ${p.package_size ? ` · <span>${p.package_size}</span>` : ''}
+        ${p.short_description ? `<div style="margin-top:4px">${p.short_description}</div>` : ''}
+        <div style="margin-top:4px;color:${inStock ? 'var(--secondary)' : '#e53e3e'}">
+          ${inStock ? (p.stock < 10 ? `Only ${p.stock} left in stock` : 'In stock') : 'Out of stock'}
+        </div>
+      </div>
+      <div class="product-price">
+        <span class="price-current">${formatPrice(displayPrice)}</span>
+        ${hasDiscount ? `<span class="price-old">${formatPrice(p.price)}</span>` : ''}
+      </div>
+      <button class="add-to-cart" ${!inStock ? 'disabled' : ''}
+        onclick="event.stopPropagation(); addToCart({id:${p.id},name:'${p.name.replace(/'/g,"\\'")}',price:${displayPrice},image:'${img}',category:'${catSafe}'})">
+        ${inStock ? 'Add to Cart' : 'Out of Stock'}
+      </button>
+    </div>
+  </div>`;
+}
+
+async function loadSidebarCats() {
+  const res = await fetch('/api/categories');
+  const cats = await res.json();
+  const el = document.getElementById('sidebar-cats');
+  const mobileCats = document.getElementById('mobile-cats');
+  const currentCat = params.get('category');
+
+  // Sidebar desktop
+  el.innerHTML = `<label class="filter-option"><input type="radio" name="cat" value="" ${!currentCat ? 'checked' : ''} onchange="params.delete('category'); applyFilters()"> All</label>` +
+    cats.map(c => `<label class="filter-option"><input type="radio" name="cat" value="${c.slug}" ${currentCat === c.slug ? 'checked' : ''} onchange="params.set('category','${c.slug}'); applyFilters()"> ${c.name} <span style="color:var(--text-light)">(${c.product_count})</span></label>`).join('');
+
+  // Drawer mobile
+  if (mobileCats) {
+    mobileCats.innerHTML = `<a href="/shop.html" class="${!currentCat ? 'active-cat' : ''}">All categories</a>` +
+      cats.map(c => `<a href="/shop.html?category=${c.slug}" class="${currentCat === c.slug ? 'active-cat' : ''}">${c.name} <span style="color:var(--text-light);float:right">${c.product_count}</span></a>`).join('');
+  }
+
+  if (currentCat) {
+    const cat = cats.find(c => c.slug === currentCat);
+    if (cat) document.getElementById('shop-title').textContent = cat.name;
+  }
+  if (params.get('search')) document.getElementById('shop-title').textContent = `Results: "${params.get('search')}"`;
+}
+
+function applyFilters() { loadProducts(1); }
+function applySearch() {
+  const q = document.getElementById('search-input').value.trim();
+  if (q) { params.set('search', q); } else { params.delete('search'); }
+  loadProducts(1);
+}
+document.getElementById('search-input').addEventListener('keypress', e => e.key === 'Enter' && applySearch());
+if (params.get('search')) document.getElementById('search-input').value = params.get('search');
+
+updateCartCount(); loadSettings(); loadSidebarCats();
+
+// Restaurer vue sauvegardée
+const savedView = localStorage.getItem('shop-view');
+if (savedView) setView(savedView);
+
+loadProducts();
+</script>
+</body>
+</html>

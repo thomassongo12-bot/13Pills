@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart - 13-Pills</title>
+  <link id="favicon" rel="icon" href="/img/favicon.png">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .cart-layout { display: grid; grid-template-columns: 1fr 340px; gap: 24px; padding: 32px 0; }
+    .cart-item { display: flex; gap: 16px; background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 12px; align-items: center; }
+    .cart-item-img { width: 80px; height: 80px; background: var(--bg); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 36px; flex-shrink: 0; overflow: hidden; }
+    .cart-item-img img { width: 100%; height: 100%; object-fit: cover; }
+    .cart-item-info { flex: 1; }
+    .cart-item-name { font-weight: 600; margin-bottom: 4px; }
+    .cart-item-cat { font-size: 12px; color: var(--text-light); }
+    .cart-item-price { font-size: 17px; font-weight: 700; color: var(--primary); }
+    .cart-qty { display: flex; align-items: center; gap: 6px; margin: 8px 0; }
+    .cart-qty button { width: 28px; height: 28px; border: 1px solid var(--border); border-radius: 4px; background: #fff; cursor: pointer; font-size: 16px; }
+    .cart-qty span { min-width: 28px; text-align: center; font-weight: 600; }
+    .remove-btn { color: #e53e3e; background: none; border: none; cursor: pointer; font-size: 13px; }
+    .order-summary { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 24px; position: sticky; top: 90px; }
+    .order-summary h2 { font-size: 18px; margin-bottom: 16px; }
+    .summary-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; border-bottom: 1px solid var(--border); }
+    .summary-row.total { font-weight: 700; font-size: 18px; color: var(--primary); border-bottom: none; padding-top: 12px; }
+    .checkout-btn { width: 100%; background: var(--secondary); color: #fff; border: none; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 16px; transition: 0.2s; }
+    .checkout-btn:hover { background: var(--secondary-dark); }
+    @media(max-width:700px) { .cart-layout { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<header class="header">
+  <div class="header-main">
+    <div class="container">
+      <a href="/" class="logo"><div id="logo-container"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg></div><div class="logo-text"><span class="site-name" id="site-name">13-Pills</span></div></a>
+      <div class="header-actions" style="margin-left:auto"><button class="cart-btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> My Cart <span class="cart-count" id="cart-count">0</span></button></div>
+    </div>
+  </div>
+  <nav class="nav"><div class="container">
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="nav-links" id="nav-links">
+      <div class="drawer-header">Menu <button class="drawer-close" id="drawer-close">×</button></div>
+      <a href="/">Home</a><a href="/shop.html">Shop</a><a href="/cart.html" class="active">Cart</a><a href="/shipping.html">Shipping</a>
+    </div>
+  </div></nav>
+</header>
+
+<div class="container">
+  <h1 style="font-size:24px;padding:24px 0 8px">My Cart</h1>
+  <div class="cart-layout">
+    <div id="cart-items"><div class="loading"><div class="spinner"></div></div></div>
+    <div class="order-summary">
+      <h2>Order Summary</h2>
+      <div class="summary-row"><span>Subtotal</span><span id="subtotal">0.00 €</span></div>
+      <div class="summary-row"><span>Shipping</span><span id="shipping-cost">4.99 €</span></div>
+      <div class="summary-row total"><span>Total</span><span id="total">0.00 €</span></div>
+      <div id="free-shipping-notice" style="font-size:12px;color:var(--secondary);text-align:center;padding:8px 0"></div>
+      <button class="checkout-btn" onclick="location.href='/checkout.html'">Proceed to Checkout →</button>
+      <a href="/shop.html" style="display:block;text-align:center;margin-top:12px;font-size:14px;color:var(--text-light)">← Continue Shopping</a>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="/js/main.js"></script>
+<script>
+let shippingCost = 4.99, freeShippingThreshold = 50;
+
+function renderCart() {
+  const cart = getCart();
+  const container = document.getElementById('cart-items');
+
+  if (!cart.length) {
+      container.innerHTML = '<div class="empty-state"><div class="empty-icon"><svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div><h3>Your cart is empty</h3><a href="/shop.html" style="display:inline-block;margin-top:16px;background:var(--primary);color:#fff;padding:12px 24px;border-radius:8px">Browse Products</a></div>';
+    updateSummary(0);
+    return;
+  }
+
+  container.innerHTML = cart.map((item, idx) => `
+    <div class="cart-item">
+      <div class="cart-item-img">
+        ${item.image ? `<img src="${item.image}" alt="${item.name}" onerror="this.parentElement.innerHTML='<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'36\\' height=\\'36\\' viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'%23ccc\\' stroke-width=\\'1.5\\' stroke-linecap=\\'round\\' stroke-linejoin=\\'round\\'><path d=\\'M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18\\'></path></svg>'">` : '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"></path></svg>'}
+      </div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        ${item.category ? `<div class="cart-item-cat">${item.category}</div>` : ''}
+        <div class="cart-qty">
+          <button onclick="updateQty(${idx}, -1)">−</button>
+          <span>${item.quantity}</span>
+          <button onclick="updateQty(${idx}, 1)">+</button>
+        </div>
+        <button class="remove-btn" onclick="removeItem(${idx})">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+          Remove
+        </button>
+      </div>
+      <div class="cart-item-price">${formatPrice(item.price * item.quantity)}</div>
+    </div>
+  `).join('');
+
+  const subtotal = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+  updateSummary(subtotal);
+}
+
+function updateSummary(subtotal) {
+  const shipping = subtotal > 0 && subtotal < freeShippingThreshold ? shippingCost : 0;
+  const total = subtotal + shipping;
+
+  document.getElementById('subtotal').textContent = formatPrice(subtotal);
+  document.getElementById('shipping-cost').textContent = shipping === 0 ? 'Free' : formatPrice(shipping);
+  document.getElementById('total').textContent = formatPrice(total);
+
+  const notice = document.getElementById('free-shipping-notice');
+  if (subtotal > 0 && subtotal < freeShippingThreshold) {
+    notice.textContent = `Only ${formatPrice(freeShippingThreshold - subtotal)} away from free shipping!`;
+  } else if (subtotal >= freeShippingThreshold) {
+    notice.textContent = 'You qualify for free shipping!';
+  }
+}
+
+function updateQty(idx, delta) {
+  const cart = getCart();
+  cart[idx].quantity = Math.max(1, cart[idx].quantity + delta);
+  saveCart(cart);
+  renderCart();
+}
+
+function removeItem(idx) {
+  const cart = getCart();
+  cart.splice(idx, 1);
+  saveCart(cart);
+  renderCart();
+}
+
+async function initCart() {
+  try {
+    const s = await fetch('/api/settings').then(r => r.json());
+    shippingCost = parseFloat(s.shipping_cost || 4.99);
+    freeShippingThreshold = parseFloat(s.free_shipping_threshold || 50);
+    siteSettings = s;
+    applySettings(s);
+  } catch {}
+  renderCart();
+}
+
+updateCartCount(); initCart();
+</script>
+</body>
+</html>
