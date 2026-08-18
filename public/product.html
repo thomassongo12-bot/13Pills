@@ -256,9 +256,13 @@ async function loadProduct() {
       ogImg.content = p.images[0];
     }
 
-    // JSON-LD Product schema
+    // JSON-LD Product schema — uses hasDiscount/displayPrice declared below
     const hasDiscount = p.sale_price && p.sale_price < p.price;
     const displayPrice = hasDiscount ? p.sale_price : p.price;
+    const discountPct = hasDiscount ? Math.round((1 - p.sale_price / p.price) * 100) : 0;
+    const hasVariants = p.variants && p.variants.length > 0;
+    const symbol = (siteSettings && siteSettings.currency_symbol) || '€';
+
     const ldJson = {
       "@context": "https://schema.org",
       "@type": "Product",
@@ -279,12 +283,6 @@ async function loadProduct() {
     let ldScript = document.querySelector('script[data-type="product-ld"]');
     if (!ldScript) { ldScript = document.createElement('script'); ldScript.type = 'application/ld+json'; ldScript.setAttribute('data-type','product-ld'); document.head.appendChild(ldScript); }
     ldScript.textContent = JSON.stringify(ldJson);
-
-    const hasDiscount = p.sale_price && p.sale_price < p.price;
-    const displayPrice = hasDiscount ? p.sale_price : p.price;
-    const discountPct = hasDiscount ? Math.round((1 - p.sale_price / p.price) * 100) : 0;
-    const hasVariants = p.variants && p.variants.length > 0;
-    const symbol = (siteSettings && siteSettings.currency_symbol) || '€';
 
     // ── TOP : image + infos achat ──
     const imgHtml = p.images && p.images.length

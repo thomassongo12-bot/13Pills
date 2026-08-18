@@ -484,13 +484,7 @@ function selectPayment(method) {
   selectedPayment = method;
   document.getElementById('payment-bank').classList.toggle('selected', method === 'bank');
   document.getElementById('radio-bank').checked = method === 'bank';
-  const bankBox = document.getElementById('bank-details-box');
-  if (method === 'bank' && settingsData.bank_details) {
-    bankBox.textContent = settingsData.bank_details;
-    bankBox.style.display = 'block';
-  } else {
-    bankBox.style.display = 'none';
-  }
+  // Bank details box intentionally hidden — removed from UI
 }
 
 function renderOrderSummary() {
@@ -599,12 +593,7 @@ async function init() {
     applySettings(s);
     if (s.site_name) document.getElementById('site-name').textContent = s.site_name;
     if (s.payment_bank_enabled === '0') document.getElementById('payment-bank').style.display = 'none';
-    // Show bank details by default if bank is selected
-    if (s.bank_details && selectedPayment === 'bank') {
-      const box = document.getElementById('bank-details-box');
-      box.textContent = s.bank_details;
-      box.style.display = 'block';
-    }
+    // Bank details box removed from UI — no longer shown
   } catch {}
   renderOrderSummary();
   updateCartCount();
