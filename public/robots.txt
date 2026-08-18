@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /login.html
+
+# Sitemap
+Sitemap: https://13pills.vercel.app/sitemap.xml

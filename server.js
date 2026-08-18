@@ -38,6 +38,56 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+// ── SEO: Dynamic Sitemap ──────────────────────────────────────────────────────
+app.get('/sitemap.xml', async (req, res) => {
+  try {
+    const { all } = require('./database/db');
+    const host = process.env.SITE_URL || `https://${req.headers.host}`;
+    const now = new Date().toISOString().split('T')[0];
+
+    const products = await all('SELECT slug, updated_at FROM products WHERE is_active=1');
+    const categories = await all('SELECT slug FROM categories WHERE is_active=1');
+
+    const staticPages = [
+      { url: '/',             priority: '1.0', changefreq: 'daily' },
+      { url: '/shop.html',    priority: '0.9', changefreq: 'daily' },
+      { url: '/about.html',   priority: '0.6', changefreq: 'monthly' },
+      { url: '/contact.html', priority: '0.6', changefreq: 'monthly' },
+      { url: '/shipping.html',priority: '0.5', changefreq: 'monthly' },
+    ];
+
+    const productUrls = products.map(p => ({
+      url: `/product.html?id=${p.slug}`,
+      priority: '0.8',
+      changefreq: 'weekly',
+      lastmod: p.updated_at ? p.updated_at.split('T')[0] : now,
+    }));
+
+    const categoryUrls = categories.map(c => ({
+      url: `/shop.html?category=${c.slug}`,
+      priority: '0.7',
+      changefreq: 'weekly',
+    }));
+
+    const allUrls = [...staticPages, ...categoryUrls, ...productUrls];
+
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${allUrls.map(u => `  <url>
+    <loc>${host}${u.url}</loc>
+    <lastmod>${u.lastmod || now}</lastmod>
+    <changefreq>${u.changefreq}</changefreq>
+    <priority>${u.priority}</priority>
+  </url>`).join('\n')}
+</urlset>`;
+
+    res.header('Content-Type', 'application/xml');
+    res.send(xml);
+  } catch (e) {
+    res.status(500).send('Sitemap error: ' + e.message);
+  }
+});
+
 // Wait for DB init before starting server
 const { initPromise } = require('./database/db');
 initPromise.then(() => {

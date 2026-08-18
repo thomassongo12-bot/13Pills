@@ -218,13 +218,18 @@ async function loadProduct() {
     document.getElementById('bc-name').textContent = p.name;
 
     // ── SEO meta tags ──
-    const metaTitle = p.meta_title || `${p.name} - 13-Pills`;
-    const metaDesc  = p.meta_description || p.short_description || '';
+    const metaTitle = p.meta_title || `${p.name} - Buy Online | 13-Pills`;
+    const metaDesc  = p.meta_description || p.short_description || `Buy ${p.name} online. Fast discreet delivery.`;
     document.title = metaTitle;
 
     let metaDescEl = document.querySelector('meta[name="description"]');
     if (!metaDescEl) { metaDescEl = document.createElement('meta'); metaDescEl.name = 'description'; document.head.appendChild(metaDescEl); }
-    if (metaDesc) metaDescEl.content = metaDesc;
+    metaDescEl.content = metaDesc;
+
+    // Canonical
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) { canonical = document.createElement('link'); canonical.rel = 'canonical'; document.head.appendChild(canonical); }
+    canonical.href = `${location.origin}/product.html?id=${p.slug || p.id}`;
 
     if (p.tags && p.tags.length) {
       let metaKw = document.querySelector('meta[name="keywords"]');
@@ -232,15 +237,48 @@ async function loadProduct() {
       metaKw.content = p.tags.join(', ');
     }
 
+    // Open Graph
     let ogTitle = document.querySelector('meta[property="og:title"]');
     if (!ogTitle) { ogTitle = document.createElement('meta'); ogTitle.setAttribute('property','og:title'); document.head.appendChild(ogTitle); }
     ogTitle.content = metaTitle;
+
+    let ogDesc = document.querySelector('meta[property="og:description"]');
+    if (!ogDesc) { ogDesc = document.createElement('meta'); ogDesc.setAttribute('property','og:description'); document.head.appendChild(ogDesc); }
+    ogDesc.content = metaDesc;
+
+    let ogType = document.querySelector('meta[property="og:type"]');
+    if (!ogType) { ogType = document.createElement('meta'); ogType.setAttribute('property','og:type'); document.head.appendChild(ogType); }
+    ogType.content = 'product';
 
     if (p.images && p.images[0]) {
       let ogImg = document.querySelector('meta[property="og:image"]');
       if (!ogImg) { ogImg = document.createElement('meta'); ogImg.setAttribute('property','og:image'); document.head.appendChild(ogImg); }
       ogImg.content = p.images[0];
     }
+
+    // JSON-LD Product schema
+    const hasDiscount = p.sale_price && p.sale_price < p.price;
+    const displayPrice = hasDiscount ? p.sale_price : p.price;
+    const ldJson = {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": p.name,
+      "description": p.short_description || p.description || '',
+      "image": p.images || [],
+      "sku": p.sku || String(p.id),
+      "brand": p.brand ? { "@type": "Brand", "name": p.brand } : undefined,
+      "offers": {
+        "@type": "Offer",
+        "url": canonical.href,
+        "priceCurrency": (siteSettings && siteSettings.currency) || "GBP",
+        "price": parseFloat(displayPrice).toFixed(2),
+        "availability": p.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+        "seller": { "@type": "Organization", "name": "13-Pills" }
+      }
+    };
+    let ldScript = document.querySelector('script[data-type="product-ld"]');
+    if (!ldScript) { ldScript = document.createElement('script'); ldScript.type = 'application/ld+json'; ldScript.setAttribute('data-type','product-ld'); document.head.appendChild(ldScript); }
+    ldScript.textContent = JSON.stringify(ldJson);
 
     const hasDiscount = p.sale_price && p.sale_price < p.price;
     const displayPrice = hasDiscount ? p.sale_price : p.price;
